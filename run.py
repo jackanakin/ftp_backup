@@ -10,7 +10,7 @@ sysDate = datetime.datetime.now()
 date = str(sysDate.day) + '-' +  str(sysDate.month) + '-' + str(sysDate.year)
 
 def start():
-    os.mkdir(date)
+    os.mkdir('tip/'+date)
     ftp.login(user=FTP_USERNAME, passwd=FTP_PASSWORD)
     openFolder()
     ftp.quit()
@@ -23,14 +23,14 @@ def openFolder():
             ftp.cwd(file)
             print(">"+file)
             try:
-                os.mkdir(date+'/'+file)
+                os.mkdir('tip/'+date+'/'+file)
             except Exception as folderException:
                 print(folderException)
             openFolder()
             ftp.cwd('..')
         except Exception as fileException:
-            ftp.retrbinary('RETR '+file, open(date + '/' + ftp.pwd() + '/' + file, 'wb').write)
-            print(file)
+            print('tip/' + date + ftp.pwd() + '/' + file)
+            ftp.retrbinary('RETR '+file, open('tip/' + date + ftp.pwd() + '/' + file, 'wb').write)
     return
 
 ftp = FTP(FTP_ADDRESS)
