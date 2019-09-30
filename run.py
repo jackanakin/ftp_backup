@@ -1,7 +1,6 @@
 from ftplib import FTP
 import datetime
 import os
-import pathlib
 
 FTP_ADDRESS = 'ftp_address'
 FTP_USERNAME = 'ftp_username'
@@ -11,7 +10,7 @@ sysDate = datetime.datetime.now()
 date = str(sysDate.day) + '-' +  str(sysDate.month) + '-' + str(sysDate.year)
 
 def start():
-    pathlib.Path(date).mkdir(exist_ok=True)
+    os.mkdir(date)
     ftp.login(user=FTP_USERNAME, passwd=FTP_PASSWORD)
     openFolder()
     ftp.quit()
@@ -24,7 +23,7 @@ def openFolder():
             ftp.cwd(file)
             print(">"+file)
             try:
-                pathlib.Path(date+'/'+file).mkdir(exist_ok=True)
+                os.mkdir(date+'/'+file)
             except Exception as folderException:
                 print(folderException)
             openFolder()
